@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LocalServer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressStr" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="20" />
+          <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddressID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobApplication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationDate" Type="date" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CandidateID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobVacancy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobPosition" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ClosingDate" Type="date" Nullable="false" />
+          <Property Name="AddressID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobVancancyApplications">
+          <Key>
+            <PropertyRef Name="JobVacancyID" />
+            <PropertyRef Name="CandidateID" />
+          </Key>
+          <Property Name="JobVacancyID" Type="int" Nullable="false" />
+          <Property Name="CandidateID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Candidate_AddressID">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobApplication_CandidateID">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="1" />
+          <End Role="JobApplication" Type="Self.JobApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobApplication">
+              <PropertyRef Name="CandidateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobVacancy_AddressID">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="JobVacancy" Type="Self.JobVacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobVacancy">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_JobVacancyApplications_CandidateID">
+          <End Role="Candidate" Type="Self.Candidate" Multiplicity="1" />
+          <End Role="JobVancancyApplications" Type="Self.JobVancancyApplications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobVancancyApplications">
+              <PropertyRef Name="CandidateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_JobVacancyApplications_JobVancancy">
+          <End Role="JobVacancy" Type="Self.JobVacancy" Multiplicity="1" />
+          <End Role="JobVancancyApplications" Type="Self.JobVancancyApplications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobVacancy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobVancancyApplications">
+              <PropertyRef Name="JobVacancyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LocalServerStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Candidate" EntityType="Self.Candidate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobApplication" EntityType="Self.JobApplication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobVacancy" EntityType="Self.JobVacancy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobVancancyApplications" EntityType="Self.JobVancancyApplications" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Candidate_AddressID" Association="Self.FK_Candidate_AddressID">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Candidate" EntitySet="Candidate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobApplication_CandidateID" Association="Self.FK_JobApplication_CandidateID">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="JobApplication" EntitySet="JobApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobVacancy_AddressID" Association="Self.FK_JobVacancy_AddressID">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="JobVacancy" EntitySet="JobVacancy" />
+          </AssociationSet>
+          <AssociationSet Name="PK_JobVacancyApplications_CandidateID" Association="Self.PK_JobVacancyApplications_CandidateID">
+            <End Role="Candidate" EntitySet="Candidate" />
+            <End Role="JobVancancyApplications" EntitySet="JobVancancyApplications" />
+          </AssociationSet>
+          <AssociationSet Name="PK_JobVacancyApplications_JobVancancy" Association="Self.PK_JobVacancyApplications_JobVancancy">
+            <End Role="JobVacancy" EntitySet="JobVacancy" />
+            <End Role="JobVancancyApplications" EntitySet="JobVancancyApplications" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="LocalServer" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="LocalServerContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserClaims" EntityType="LocalServer.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="LocalServer.AspNetUserLogin" />
+          <EntitySet Name="JobApplications" EntityType="LocalServer.JobApplication" />
+          <EntitySet Name="JobVacancies" EntityType="LocalServer.JobVacancy" />
+          <EntitySet Name="Addresses" EntityType="LocalServer.Address" />
+          <AssociationSet Name="FK_JobVacancy_AddressID1" Association="LocalServer.FK_JobVacancy_AddressID1">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="JobVacancy" EntitySet="JobVacancies" />
+          </AssociationSet>
+          <EntitySet Name="Candidates" EntityType="LocalServer.Candidate" />
+          <AssociationSet Name="FK_Candidate_AddressID" Association="LocalServer.FK_Candidate_AddressID">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobApplication_CandidateID" Association="LocalServer.FK_JobApplication_CandidateID">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="JobApplication" EntitySet="JobApplications" />
+          </AssociationSet>
+          <AssociationSet Name="JobVancancyApplications" Association="LocalServer.JobVancancyApplications">
+            <End Role="Candidate" EntitySet="Candidates" />
+            <End Role="JobVacancy" EntitySet="JobVacancies" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="JobApplication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CandidateID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Candidate" Relationship="LocalServer.FK_JobApplication_CandidateID" FromRole="JobApplication" ToRole="Candidate" />
+        </EntityType>
+        <EntityType Name="JobVacancy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobPosition" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClosingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AddressID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="LocalServer.FK_JobVacancy_AddressID1" FromRole="JobVacancy" ToRole="Address" />
+          <NavigationProperty Name="Candidates" Relationship="LocalServer.JobVancancyApplications" FromRole="JobVacancy" ToRole="Candidate" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressStr" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="JobVacancies" Relationship="LocalServer.FK_JobVacancy_AddressID1" FromRole="Address" ToRole="JobVacancy" />
+          <NavigationProperty Name="Candidates" Relationship="LocalServer.FK_Candidate_AddressID" FromRole="Address" ToRole="Candidate" />
+        </EntityType>
+        <Association Name="FK_JobVacancy_AddressID1">
+          <End Type="LocalServer.Address" Role="Address" Multiplicity="1" />
+          <End Type="LocalServer.JobVacancy" Role="JobVacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobVacancy">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Candidate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddressID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="LocalServer.FK_Candidate_AddressID" FromRole="Candidate" ToRole="Address" />
+          <NavigationProperty Name="JobApplications" Relationship="LocalServer.FK_JobApplication_CandidateID" FromRole="Candidate" ToRole="JobApplication" />
+          <NavigationProperty Name="JobVacancies" Relationship="LocalServer.JobVancancyApplications" FromRole="Candidate" ToRole="JobVacancy" />
+        </EntityType>
+        <Association Name="FK_Candidate_AddressID">
+          <End Type="LocalServer.Address" Role="Address" Multiplicity="1" />
+          <End Type="LocalServer.Candidate" Role="Candidate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Candidate">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobApplication_CandidateID">
+          <End Type="LocalServer.Candidate" Role="Candidate" Multiplicity="1" />
+          <End Type="LocalServer.JobApplication" Role="JobApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="JobApplication">
+              <PropertyRef Name="CandidateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JobVancancyApplications">
+          <End Type="LocalServer.Candidate" Role="Candidate" Multiplicity="*" />
+          <End Type="LocalServer.JobVacancy" Role="JobVacancy" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="LocalServer" />
+        <Alias Key="Target" Value="LocalServer.Store" />
+        <EntityContainerMapping CdmEntityContainer="LocalServerContainer" StorageEntityContainer="LocalServerStoreContainer">
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="LocalServer.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="LocalServer.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobApplications">
+            <EntityTypeMapping TypeName="LocalServer.JobApplication">
+              <MappingFragment StoreEntitySet="JobApplication">
+                <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobVacancies">
+            <EntityTypeMapping TypeName="LocalServer.JobVacancy">
+              <MappingFragment StoreEntitySet="JobVacancy">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="ClosingDate" ColumnName="ClosingDate" />
+                <ScalarProperty Name="JobPosition" ColumnName="JobPosition" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="LocalServer.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressStr" ColumnName="AddressStr" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Candidates">
+            <EntityTypeMapping TypeName="LocalServer.Candidate">
+              <MappingFragment StoreEntitySet="Candidate">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="JobVancancyApplications" TypeName="LocalServer.JobVancancyApplications" StoreEntitySet="JobVancancyApplications">
+            <EndProperty Name="JobVacancy">
+              <ScalarProperty Name="ID" ColumnName="JobVacancyID" />
+            </EndProperty>
+            <EndProperty Name="Candidate">
+              <ScalarProperty Name="ID" ColumnName="CandidateID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
