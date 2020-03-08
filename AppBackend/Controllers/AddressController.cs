@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using AppBackend.Models.DB;
 using AppBackend.DBControllers;
+using Newtonsoft.Json;
 
 namespace AppBackend.Controllers
 {
@@ -16,7 +17,7 @@ namespace AppBackend.Controllers
         // GET api/<controller>
         public IEnumerable<Address> Get()
         {
-            return _dbController.Get<Address>();
+            return _dbController.Get<Address>().ToList();
         }
 
         // GET api/<controller>/5

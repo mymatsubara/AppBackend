@@ -12,31 +12,26 @@ namespace AppBackend.Controllers
     public class JobApplicationController : ApiController
     {
         private DBController _dbController = DBController.Instance;
-        // GET api/<controller>
+        // GET api/jobapplication
         public IEnumerable<JobApplication> Get()
         {
             return _dbController.Get<JobApplication>();
         }
 
-        // GET api/<controller>/5
+        // GET api/jobapplication/5
         public JobApplication Get(int id)
         {
             return _dbController.Get<JobApplication>(new object[] { id });
         }
 
-        // POST api/<controller>
+        // POST api/jobapplication
         public void Post(HttpRequestMessage request)
         {
             string requestContent = request.Content.ReadAsStringAsync().Result;
             _dbController.Post<JobApplication>(requestContent);
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
+        // DELETE api/jobapplication/5
         public void Delete(int id)
         {
             _dbController.Delete<JobApplication>(new object[] { id });

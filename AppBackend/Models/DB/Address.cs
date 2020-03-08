@@ -14,23 +14,11 @@ namespace AppBackend.Models.DB
     
     public partial class Address
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address()
-        {
-            this.JobVacancies = new HashSet<JobVacancy>();
-            this.Candidates = new HashSet<Candidate>();
-        }
-    
         public int ID { get; set; }
         public string AddressStr { get; set; }
         public string City { get; set; }
         public string Area { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<JobVacancy> JobVacancies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Candidate> Candidates { get; set; }
     }
 }

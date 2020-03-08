@@ -6,52 +6,37 @@ using System.Net.Http;
 using System.Web.Http;
 using AppBackend.Models.DB;
 using Newtonsoft.Json;
+using AppBackend.DBControllers;
+using System.Web;
 
 namespace AppBackend.Controllers
 {
     public class CandidateController : ApiController
     {
+        private DBController _dbController = DBController.Instance;
         // GET api/candidate
         public IEnumerable<Candidate> Get()
         {
-            using (LocalServerContainer dbx = new LocalServerContainer())
-            {
-                return dbx.Candidates.ToList();
-            }
+            return _dbController.Get<Candidate>();
         }
 
         // GET api/candidate/5
         public Candidate Get(int id)
         {
-            using (LocalServerContainer dbx = new LocalServerContainer())
-            {
-                return dbx.Candidates.Find(new object[] { id });
-            }
+            return _dbController.Get<Candidate>(new object[] { id });
         }
 
         // POST api/candidate
-        public void Post([FromBody]string value)
+        public void Post(HttpRequestMessage request)
         {
-            using (LocalServerContainer dbx = new LocalServerContainer())
-            {
-                dbx.Candidates.Add(JsonConvert.DeserializeObject<Candidate>(value));
-                dbx.SaveChanges();
-            }
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
+            string requestContent = request.Content.ReadAsStringAsync().Result;
+            _dbController.Post<Candidate>(requestContent);
         }
 
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
-            using (LocalServerContainer dbx = new LocalServerContainer())
-            {
-                dbx.Candidates.Remove(dbx.Candidates.Find(new object[] { id }));
-                dbx.SaveChanges();
-            }
+            _dbController.Delete<Candidate>(new object[] { id });
         }
     }
 }

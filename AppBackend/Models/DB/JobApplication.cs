@@ -18,6 +18,7 @@ namespace AppBackend.Models.DB
         public System.DateTime ApplicationDate { get; set; }
         public string Description { get; set; }
         public int CandidateID { get; set; }
+        public int JobVacancyID { get; set; }
     
         public virtual Candidate Candidate { get; set; }
     }

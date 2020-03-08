@@ -17,7 +17,7 @@ namespace AppBackend.Models.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public JobVacancy()
         {
-            this.Candidates = new HashSet<Candidate>();
+            this.JobApplications = new HashSet<JobApplication>();
         }
     
         public int ID { get; set; }
@@ -27,6 +27,6 @@ namespace AppBackend.Models.DB
     
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Candidate> Candidates { get; set; }
+        public virtual ICollection<JobApplication> JobApplications { get; set; }
     }
 }
