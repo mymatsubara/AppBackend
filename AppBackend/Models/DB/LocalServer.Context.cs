@@ -29,7 +29,7 @@ namespace AppBackend.Models.DB
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
-        public virtual DbSet<JobApplication> JobApplications { get; set; }
         public virtual DbSet<JobVacancy> JobVacancies { get; set; }
+        public virtual DbSet<JobApplication> JobApplications { get; set; }
     }
 }

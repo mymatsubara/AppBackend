@@ -224,6 +224,7 @@
     <Compile Include="Controllers\JobApplicationController.cs" />
     <Compile Include="Controllers\JobVacancyController.cs" />
     <Compile Include="DBControllers\DBController.cs" />
+    <Compile Include="ExtendedMethods\HttpRequestMessageExtender.cs" />
     <Compile Include="Models\DB\Address.cs">
       <DependentUpon>LocalServer.tt</DependentUpon>
     </Compile>
@@ -258,7 +259,6 @@
       <DependentUpon>LocalServer.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

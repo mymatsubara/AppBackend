@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Data.Entity.Migrations;
 
 namespace AppBackend.DBControllers
 {
@@ -45,6 +46,12 @@ namespace AppBackend.DBControllers
         {
             DbSet<T> dbSet = GetDbSetFor<T>();
             dbSet.Remove(dbSet.Find(primaryKeys));
+            _dbx.SaveChanges();
+        }
+
+        public void Update<T>(string jsonObject) where T : class
+        {
+            GetDbSetFor<T>().AddOrUpdate(JsonConvert.DeserializeObject<T>(jsonObject));
             _dbx.SaveChanges();
         }
 

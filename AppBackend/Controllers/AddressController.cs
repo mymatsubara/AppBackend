@@ -7,6 +7,7 @@ using System.Web.Http;
 using AppBackend.Models.DB;
 using AppBackend.DBControllers;
 using Newtonsoft.Json;
+using AppBackend.ExtendedMethods;
 
 namespace AppBackend.Controllers
 {
@@ -29,13 +30,13 @@ namespace AppBackend.Controllers
         // POST api/<controller>
         public void Post(HttpRequestMessage request)
         {
-            string requestContent = request.Content.ReadAsStringAsync().Result;
-            _dbController.Post<Address>(requestContent);
+            _dbController.Post<Address>(request.BodyToString());
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        // PUT api/<controller>
+        public void Put(HttpRequestMessage request)
         {
+            _dbController.Update<Address>(request.BodyToString());
         }
 
         // DELETE api/<controller>/5

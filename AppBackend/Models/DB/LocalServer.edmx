@@ -46,8 +46,6 @@
         <EntityType Name="JobApplication">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="CandidateID" />
-            <PropertyRef Name="JobVacancyID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ApplicationDate" Type="date" Nullable="false" />
@@ -145,7 +143,6 @@
           <EntitySet Name="AspNetUserLogins" EntityType="LocalServer.AspNetUserLogin" />
           <EntitySet Name="Addresses" EntityType="LocalServer.Address" />
           <EntitySet Name="Candidates" EntityType="LocalServer.Candidate" />
-          <EntitySet Name="JobApplications" EntityType="LocalServer.JobApplication" />
           <EntitySet Name="JobVacancies" EntityType="LocalServer.JobVacancy" />
           <AssociationSet Name="FK_Candidate_AddressID" Association="LocalServer.FK_Candidate_AddressID">
             <End Role="Address" EntitySet="Addresses" />
@@ -155,6 +152,7 @@
             <End Role="Address" EntitySet="Addresses" />
             <End Role="JobVacancy" EntitySet="JobVacancies" />
           </AssociationSet>
+          <EntitySet Name="JobApplications" EntityType="LocalServer.JobApplication" />
           <AssociationSet Name="FK_JobApplication_CandidateID" Association="LocalServer.FK_JobApplication_CandidateID">
             <End Role="Candidate" EntitySet="Candidates" />
             <End Role="JobApplication" EntitySet="JobApplications" />
@@ -163,7 +161,7 @@
             <End Role="JobVacancy" EntitySet="JobVacancies" />
             <End Role="JobApplication" EntitySet="JobApplications" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
@@ -203,19 +201,6 @@
           <Property Name="AddressID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="LocalServer.FK_Candidate_AddressID" FromRole="Candidate" ToRole="Address" />
         </EntityType>
-        <EntityType Name="JobApplication">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="CandidateID" />
-            <PropertyRef Name="JobVacancyID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CandidateID" Type="Int32" Nullable="false" />
-          <Property Name="JobVacancyID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Candidate" Relationship="LocalServer.FK_JobApplication_CandidateID" FromRole="JobApplication" ToRole="Candidate" />
-        </EntityType>
         <EntityType Name="JobVacancy">
           <Key>
             <PropertyRef Name="ID" />
@@ -251,6 +236,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobApplication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CandidateID" Type="Int32" Nullable="false" />
+          <Property Name="JobVacancyID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Candidate" Relationship="LocalServer.FK_JobApplication_CandidateID" FromRole="JobApplication" ToRole="Candidate" />
+        </EntityType>
         <Association Name="FK_JobApplication_CandidateID">
           <End Type="LocalServer.Candidate" Role="Candidate" Multiplicity="1" />
           <End Type="LocalServer.JobApplication" Role="JobApplication" Multiplicity="*" />
@@ -275,7 +271,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -323,6 +319,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="JobVacancies">
+            <EntityTypeMapping TypeName="LocalServer.JobVacancy">
+              <MappingFragment StoreEntitySet="JobVacancy">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="ClosingDate" ColumnName="ClosingDate" />
+                <ScalarProperty Name="JobPosition" ColumnName="JobPosition" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="JobApplications">
             <EntityTypeMapping TypeName="LocalServer.JobApplication">
               <MappingFragment StoreEntitySet="JobApplication">
@@ -330,16 +336,6 @@
                 <ScalarProperty Name="CandidateID" ColumnName="CandidateID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="JobVacancies">
-            <EntityTypeMapping TypeName="LocalServer.JobVacancy">
-              <MappingFragment StoreEntitySet="JobVacancy">
-                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
-                <ScalarProperty Name="ClosingDate" ColumnName="ClosingDate" />
-                <ScalarProperty Name="JobPosition" ColumnName="JobPosition" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

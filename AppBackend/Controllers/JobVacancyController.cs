@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AppBackend.DBControllers;
+using AppBackend.ExtendedMethods;
 using AppBackend.Models.DB;
 
 namespace AppBackend.Controllers
@@ -27,8 +28,13 @@ namespace AppBackend.Controllers
         // POST api/jobvacancy
         public void Post(HttpRequestMessage request)
         {
-            string requestContent = request.Content.ReadAsStringAsync().Result;
-            _dbController.Post<JobVacancy>(requestContent);
+            _dbController.Post<JobVacancy>(request.BodyToString());
+        }
+
+        // PUT api/jobvacancy
+        public void Put(HttpRequestMessage request)
+        {
+            _dbController.Update<JobVacancy>(request.BodyToString());
         }
 
         // DELETE api/jobvacancy/5

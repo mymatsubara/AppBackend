@@ -9,13 +9,13 @@
         <EntityTypeShape EntityType="LocalServer.AspNetUserLogin" Width="1.5" PointX="13.25" PointY="3.75" />
         <EntityTypeShape EntityType="LocalServer.Address" Width="1.5" PointX="0.75" PointY="2.5" />
         <EntityTypeShape EntityType="LocalServer.Candidate" Width="1.5" PointX="3" PointY="4.25" />
-        <EntityTypeShape EntityType="LocalServer.JobApplication" Width="1.5" PointX="5.25" PointY="2.5" />
         <EntityTypeShape EntityType="LocalServer.JobVacancy" Width="1.5" PointX="3" PointY="1.25" />
         <AssociationConnector Association="LocalServer.FK_Candidate_AddressID" />
         <AssociationConnector Association="LocalServer.FK_JobVacancy_AddressID" />
+        <EntityTypeShape EntityType="LocalServer.JobApplication" Width="1.5" PointX="5.25" PointY="2.5" />
         <AssociationConnector Association="LocalServer.FK_JobApplication_CandidateID" />
         <AssociationConnector Association="LocalServer.FK_JobApplication_JobVacancyID" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
